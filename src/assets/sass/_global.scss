@@ -1,0 +1,15 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  background: $background-color;
+  color: $base-font-color;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}

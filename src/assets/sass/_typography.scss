@@ -1,0 +1,20 @@
+.title {
+  font-size: 3rem;
+}
+
+.sub-title {
+  font-size: 1.2rem;
+  border-bottom: .0625rem solid rgba(0,0,0,.1);
+  padding-bottom: 1rem;
+  color: $heading-font-color;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+}
+
+.active {
+  color: $active-font-color;
+}
+
+.text--center {
+  text-align: center;
+}

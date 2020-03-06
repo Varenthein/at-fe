@@ -1,0 +1,15 @@
+.form {
+  border-radius: 2rem;
+  margin: 4rem 2rem;
+  box-shadow: 0 20px 40px 0 rgba(107,154,212,.1);
+  padding: 2rem;
+  background: $base-card-color;
+  position: relative;
+  overflow: hidden;
+}
+
+.form--short {
+  max-width: 20rem;
+  margin-right: auto;
+  margin-left: auto;;
+}

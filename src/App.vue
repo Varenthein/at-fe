@@ -1,32 +1,27 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <container>
+
+      <!-- page heading -->
+      <h1 class="title text--center">
+        eBook
+        <span class="active">.app</span>
+      </h1>
+
+      <!-- page content -->
+      <fade-transition origin="center" mode="out-in" :duration="250">
+        <router-view />
+      </fade-transition>
+
+    </container>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+import Container from '@/components/UI/Container'
+import { FadeTransition } from 'vue2-transitions'
+
+export default {
+  components: { FadeTransition, Container }
 }
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+</script>
