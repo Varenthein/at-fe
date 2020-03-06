@@ -6,6 +6,9 @@ $base-card-color: #fff;
 $fog-color: rgba(90,88,218,0.6);
 $fog-icon-color: #f2f8ff;
 $list-color: #637892;
+$radiogroup-icon-color: #637892;
+$radiogroup-base-color: #637892;
+$radiogroup-active-color: #5a58da;
 
 /* buttons */
 $base-button-color: #fff;
@@ -34,4 +37,8 @@ $alert-info-text: #fff;
 $alert-success-back: #00bc8c;
 $alert-success-border: #01916d;
 $alert-success-text: #fff;
+
+/* item status */
+$item-status-color-rented: #f0932b;
+$item-status-color-available: #00bc8c;
 

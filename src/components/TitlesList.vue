@@ -24,10 +24,12 @@
       <div class="titles-list__item__actions list__item__actions">
 
         <!-- show copies btn -->
-        <button-item
-          class="show-copies-btn btn--small"
-          text="Show copies"
-          variant="primary" />
+        <router-link :to="`/items/${ebook.id}`">
+          <button-item
+            class="show-copies-btn btn--small"
+            text="Show copies"
+            variant="primary" />
+        </router-link>
 
         <!-- edit btn -->
         <button-item

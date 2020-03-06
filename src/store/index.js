@@ -9,7 +9,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     userId: null,
-    titles: []
+    titles: [],
+    items: []
   },
   mutations: {
     updateState (state, { key, val }) {
@@ -106,7 +107,63 @@ export default new Vuex.Store({
           reject(new Error(err.message))
         }
       })
+    },
+
+    async fetchItems ({ state, commit }, titleId) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const resp = await Axios.get(`${apiUrl}/items/?userId=${state.userId}&titleId=${titleId}`)
+          commit('updateState', { key: 'items', val: resp.data })
+          resolve()
+        } catch (err) {
+          reject(new Error(err.message))
+        }
+      })
+    },
+
+    async removeItemRequest ({ state, commit }, id) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const resp = await Axios.delete(`${apiUrl}/items/?userId=${state.userId}&id=${id}`)
+          if (resp.data) {
+            commit('removeListElem', { list: 'items', id })
+            resolve()
+          } else reject(new Error('Something went wrong...'))
+        } catch (err) {
+          reject(new Error(err.message))
+        }
+      })
+    },
+
+    async addItemRequest ({ state, commit }, data) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const { titleId, purchaseDate, status } = data
+          const resp = await Axios.post(`${apiUrl}/items/`, { userId: state.userId, titleId, purchaseDate })
+          if (resp.data) {
+            commit('addListElem', { list: 'items', data: { purchaseDate, status, id: resp.data } })
+            resolve()
+          } else reject(new Error('Something went wrong...'))
+        } catch (err) {
+          reject(new Error(err.message))
+        }
+      })
+    },
+
+    async updateItemRequest ({ state, commit }, data) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const resp = await Axios.put(`${apiUrl}/items/`, { userId: state.userId, id: data.id, purchaseDate: data.purchaseDate })
+          if (resp.data) {
+            commit('updateListElem', { list: 'items', id: data.id, data: { ...data, ...resp.data } })
+            resolve()
+          } else reject(new Error('Something went wrong...'))
+        } catch (err) {
+          reject(new Error(err.message))
+        }
+      })
     }
+
   }
 
 })

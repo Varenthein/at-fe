@@ -6,10 +6,15 @@
   background: $base-card-color;
   position: relative;
   overflow: hidden;
-}
 
-.form--short {
-  max-width: 20rem;
-  margin-right: auto;
-  margin-left: auto;;
+  &--short {
+    max-width: 20rem;
+    margin-right: auto;
+    margin-left: auto;;
+  }
+
+  &--uncut {
+    overflow: initial;
+  }
+
 }
