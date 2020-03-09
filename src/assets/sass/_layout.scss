@@ -1,5 +1,20 @@
 .flex {
   display: flex;
+
+  &-grow {
+    &--0 {
+      flex-grow: 0;
+    }
+    &--1 {
+      flex-grow: 1;
+    }
+  }
+
+  &-align {
+    &--center {
+      align-items: center;
+    }
+  }
 }
 
 .fog {
@@ -64,6 +79,11 @@
 .margin {
   &--auto {
     margin: 0 auto;
+  }
+  &-right {
+    &--1 {
+      margin-right: 1rem;
+    }
   }
 }
 

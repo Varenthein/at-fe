@@ -7,11 +7,9 @@
         id="id"
         class="date-picker__input"
         :name="name"
+        :value="newValue"
         format="yyyy-MM-dd"
-        v-model="newValue"
-        @input="$emit('input', preparedDate)"
-        @blur="$emit('blur', preparedDate)"
-        @focus="$emit('focus', preapredDate)" />
+        @selected="pickDate" />
 
       <!-- label -->
       <span :class="{ 'input-field__label': true, 'input-field__label--active': newValue }" v-text="label" />
@@ -22,6 +20,7 @@
 
 <script>
 import Datepicker from 'vuejs-datepicker'
+import { dateToStr } from '@/utils'
 
 export default {
   name: 'datePicker',
@@ -37,11 +36,9 @@ export default {
       newValue: null
     }
   },
-  computed: {
-    preparedDate () {
-      const date = this.newValue
-      const pad0 = val => parseInt(val) < 10 ? `0${parseInt(val)}` : val
-      return `${date.getFullYear()}-${pad0(date.getMonth() + 1)}-${pad0(date.getDate())}`
+  methods: {
+    pickDate (date) {
+      this.$emit('input', dateToStr(date))
     }
   },
   created () {
@@ -60,7 +57,6 @@ export default {
   transition: .2s;
   width: 100%;
   max-width: 20rem;
-  //box-shadow: 0 0 10px rgba(196,219,244,.5);
   border-bottom: 1px solid #c4dbf4;
   margin: 1rem 0;
 

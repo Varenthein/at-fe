@@ -59,6 +59,13 @@ export default {
     margin-left: -0.2rem;
   }
 
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active  {
+    -webkit-box-shadow: none;
+  }
+
   &__input {
     background: none;
     border: none;

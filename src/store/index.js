@@ -10,7 +10,8 @@ export default new Vuex.Store({
   state: {
     userId: null,
     titles: [],
-    items: []
+    items: [],
+    rents: []
   },
   mutations: {
     updateState (state, { key, val }) {
@@ -48,6 +49,7 @@ export default new Vuex.Store({
         try {
           const resp = await Axios.post(`${apiUrl}/user/register`, { login, password })
           if (resp.data.new) resolve()
+          else if (resp.data.id) reject(new Error('This user already exist!'))
           else reject(new Error('Something went wrong...'))
         } catch (err) {
           reject(new Error(err.message))
@@ -156,6 +158,62 @@ export default new Vuex.Store({
           const resp = await Axios.put(`${apiUrl}/items/`, { userId: state.userId, id: data.id, purchaseDate: data.purchaseDate })
           if (resp.data) {
             commit('updateListElem', { list: 'items', id: data.id, data: { ...data, ...resp.data } })
+            resolve()
+          } else reject(new Error('Something went wrong...'))
+        } catch (err) {
+          reject(new Error(err.message))
+        }
+      })
+    },
+
+    async fetchRents ({ state, commit }, titleId) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const resp = await Axios.get(`${apiUrl}/rents/?userId=${state.userId}&itemId=${titleId}`)
+          commit('updateState', { key: 'rents', val: resp.data })
+          resolve()
+        } catch (err) {
+          reject(new Error(err.message))
+        }
+      })
+    },
+
+    async removeRentRequest ({ state, commit }, id) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const resp = await Axios.delete(`${apiUrl}/rents/?userId=${state.userId}&id=${id}`)
+          if (resp.data) {
+            commit('removeListElem', { list: 'rents', id })
+            resolve()
+          } else reject(new Error('Something went wrong...'))
+        } catch (err) {
+          reject(new Error(err.message))
+        }
+      })
+    },
+
+    async addRentRequest ({ state, commit }, data) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const { itemId, rentDate, customerName } = data
+          const resp = await Axios.post(`${apiUrl}/rents/`, { userId: state.userId, itemId, rentDate, customerName })
+          if (resp.data) {
+            commit('addListElem', { list: 'rents', data: { ...data, id: resp.data } })
+            resolve()
+          } else reject(new Error('Something went wrong...'))
+        } catch (err) {
+          reject(new Error(err.message))
+        }
+      })
+    },
+
+    async updateRentRequest ({ state, commit }, data) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const { id, customerName, rentDate, expirationDate } = data
+          const resp = await Axios.put(`${apiUrl}/rents/`, { userId: state.userId, id, customerName, rentDate, expirationDate })
+          if (resp.data) {
+            commit('updateListElem', { list: 'rents', id: data.id, data: { ...resp.data } })
             resolve()
           } else reject(new Error('Something went wrong...'))
         } catch (err) {

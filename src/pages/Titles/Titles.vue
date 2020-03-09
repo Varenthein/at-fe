@@ -3,7 +3,7 @@
 
     <!-- heading -->
     <h2
-      class="sub-title"
+      class="sub-title flex-grow--1 margin-right--1"
       v-text="'Titles catalog'" />
 
     <!-- spinner -->
@@ -12,7 +12,7 @@
 
     <!-- alert -->
     <alert
-      v-if="!titles.length && !errorMessage"
+      v-if="!titles.length && !errorMessage && !loading"
       type="info"
       content="No titles" />
 

@@ -1,12 +1,12 @@
 <template>
-  <div id="title-copies" class="title-copies page">
+  <div id="rents" class="rents page">
 
     <div class="flex flex-align--center">
 
       <!-- heading -->
       <h2
         class="sub-title flex-grow--1 margin-right--1"
-        v-text="'List of copies'" />
+        v-text="'Rents history'" />
 
       <!-- return btn -->
       <button-item
@@ -24,9 +24,9 @@
 
     <!-- alert -->
     <alert
-      v-if="!items.length && !errorMessage && !loading"
+      v-if="!rents.length && !errorMessage && !loading"
       type="info"
-      content="No copies..." />
+      content="No rents..." />
 
     <!-- error alert -->
     <alert
@@ -34,34 +34,35 @@
       type="error"
       :content="errorMessage" />
 
-    <!-- item add form -->
-    <item-form
+    <!-- rent add form -->
+    <rent-form
       v-if="addFormVisible"
-      @submit="addItem"
+      @submit="addRent"
       @cancel="addFormVisible = false"
       :label="'Add copy'" />
 
-    <!-- item edit form -->
-    <item-form
+    <!-- rent edit form -->
+    <rent-form
       v-if="editFormVisible"
-      :data="itemToEdit"
-      @submit="editItem"
+      type="edit"
+      :data="rentToEdit"
+      @submit="editRent"
       @cancel="editFormVisible = false"
       :label="'Edit copy'" />
 
-    <!-- items list -->
-    <items-list
-      v-if="items.length"
-      :items="items"
-      @remove="removeItem"
-      @edit="itemToEdit = $event; editFormVisible = true" />
+    <!-- rents list -->
+    <rents-list
+      v-if="rents.length"
+      :rents="rents"
+      @remove="removeRent"
+      @edit="rentToEdit = $event; editFormVisible = true" />
 
-    <!-- add item btn -->
+    <!-- add rent btn -->
     <button-item
       @click="addFormVisible = true"
-      name="add-item-button"
-      text="Add new"
-      id="add-item-button" />
+      name="add-rent-button"
+      text="Rent this copy"
+      id="add-rent-button" />
 
   </div>
 </template>
@@ -69,58 +70,58 @@
 <script>
 import AuthMixin from '@/mixins/authMixin'
 import Alert from '@/components/UI/Alert'
-import ItemsList from '@/components/ItemsList'
+import RentsList from '@/components/RentsList'
 import Spinner from '@/components/UI/Spinner'
 import ButtonItem from '@/components/UI/Button'
-import ItemForm from '@/components/ItemForm'
+import RentForm from '@/components/RentForm'
 
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'Items',
+  name: 'Rents',
   mixins: [AuthMixin],
   data: () => ({
     loading: false,
     errorMessage: '',
-    itemToEdit: null,
+    rentToEdit: null,
     editFormVisible: false,
     addFormVisible: false
   }),
   computed: {
-    items () { return this.$store.state.items }
+    rents () { return this.$store.state.rents }
   },
   methods: {
-    ...mapActions(['fetchItems', 'addItemRequest', 'removeItemRequest', 'updateItemRequest']),
+    ...mapActions(['fetchRents', 'addRentRequest', 'removeRentRequest', 'updateRentRequest']),
 
-    async removeItem (id) {
+    async removeRent (id) {
       this.loading = true
       this.errorMessage = ''
       try {
-        await this.removeItemRequest(id)
+        await this.removeRentRequest(id)
       } catch (err) {
         this.errorMessage = err.message
       }
       this.loading = false
     },
 
-    async addItem (form) {
+    async addRent (form) {
       this.addFormVisible = false
       this.loading = true
       this.errorMessage = ''
       try {
-        await this.addItemRequest({ purchaseDate: form.purchaseDate, status: form.status, titleId: this.$route.params.titleId })
+        await this.addRentRequest({ ...form, itemId: this.$route.params.itemId })
       } catch (err) {
         this.errorMessage = err.message
       }
       this.loading = false
     },
 
-    async editItem (form) {
+    async editRent (form) {
       this.editFormVisible = false
       this.loading = true
       this.errorMessage = ''
       try {
-        await this.updateItemRequest({ ...form })
+        await this.updateRentRequest({ ...form })
       } catch (err) {
         this.errorMessage = err.message
       }
@@ -132,13 +133,13 @@ export default {
     this.loading = true
     this.errorMessage = ''
     try {
-      if (!this.$route.params.titleId) throw new Error('No title selected')
-      else await this.fetchItems(this.$route.params.titleId)
+      if (!this.$route.params.itemId) throw new Error('No item selected')
+      else await this.fetchRents(this.$route.params.itemId)
     } catch (err) {
       this.errorMessage = err.message
     }
     this.loading = false
   },
-  components: { Alert, ItemsList, Spinner, ButtonItem, ItemForm }
+  components: { Alert, RentsList, Spinner, RentForm, ButtonItem }
 }
 </script>

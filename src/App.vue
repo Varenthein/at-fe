@@ -3,10 +3,12 @@
     <container>
 
       <!-- page heading -->
-      <h1 class="title text--center">
-        eBook
-        <span class="active">.app</span>
-      </h1>
+      <router-link to="/">
+        <h1 class="title text--center">
+          eBook
+          <span class="active">.app</span>
+        </h1>
+      </router-link>
 
       <!-- page content -->
       <fade-transition origin="center" mode="out-in" :duration="250">
