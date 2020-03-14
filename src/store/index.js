@@ -78,7 +78,7 @@ export default new Vuex.Store({
             resolve()
           } else reject(new Error('Something went wrong...'))
         } catch (err) {
-          reject(new Error(err.message))
+          reject(new Error('You can\'t remove titles with copies!'))
         }
       })
     },
@@ -114,6 +114,7 @@ export default new Vuex.Store({
     async fetchItems ({ state, commit }, titleId) {
       return new Promise(async (resolve, reject) => {
         try {
+          if (!state.userId) return false
           const resp = await Axios.get(`${apiUrl}/items/?userId=${state.userId}&titleId=${titleId}`)
           commit('updateState', { key: 'items', val: resp.data })
           resolve()
@@ -132,7 +133,7 @@ export default new Vuex.Store({
             resolve()
           } else reject(new Error('Something went wrong...'))
         } catch (err) {
-          reject(new Error(err.message))
+          reject(new Error('You can\'t remove copy with the rents history!'))
         }
       })
     },

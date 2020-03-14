@@ -10,9 +10,9 @@
         v-model="newValue"
         :type="type"
         class="input-field__input"
-        @input="$emit('input', newValue)"
-        @blur="$emit('blur', newValue)"
-        @focus="$emit('focus', newValue)">
+        @input="$emit('input', prepareVal(newValue))"
+        @blur="$emit('blur', prepareVal(newValue))"
+        @focus="$emit('focus', prepareVal(newValue))">
 
       <!-- label -->
       <span :class="{ 'input-field__label': true, 'input-field__label--active': newValue.length }" v-text="label" />
@@ -36,8 +36,13 @@ export default {
       newValue: null
     }
   },
+  methods: {
+    prepareVal () {
+      return this.type === 'number' ? parseInt(this.newValue) : this.newValue
+    }
+  },
   created () {
-    this.newValue = this.value
+    this.newValue = (this.type === 'number' && !isNaN(this.value)) ? this.value.toString() : this.value
   }
 }
 </script>

@@ -30,7 +30,7 @@
       <!-- year -->
       <input-field
         name="year"
-        type="text"
+        type="number"
         label="Year"
         v-model="form.year"/>
 

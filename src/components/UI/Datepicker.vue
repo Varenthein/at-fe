@@ -1,9 +1,10 @@
 <template>
   <div>
-    <label class="date-picker">
+    <div class="date-picker">
 
       <!-- purchase date -->
       <datepicker
+        ref="datepicker"
         id="id"
         class="date-picker__input"
         :name="name"
@@ -14,7 +15,7 @@
       <!-- label -->
       <span :class="{ 'input-field__label': true, 'input-field__label--active': newValue }" v-text="label" />
 
-    </label>
+    </div>
   </div>
 </template>
 
